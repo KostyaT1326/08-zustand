@@ -1,11 +1,9 @@
-"use client";
 
 export const dynamic = "force-dynamic";
 
-import { Metadata } from 'next';
 import css from './notFound.module.css';
 
-export const metadata: Metadata = {
+export const metadata = {
     title: "Page Not Found | NoteHub",
   description: "Sorry, this page does not exist.",
   openGraph: {
