@@ -5,11 +5,10 @@ import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
 import css from './NotesClient.module.css';
 import SearchBox from '@/components/SearchBox/SearchBox';
-import Modal from '@/components/Modal/Modal';
-import NoteForm from '@/components/NoteForm/NoteForm';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { fetchNotes } from '@/lib/api';
 import { NoteTag } from '@/types/note';
+import Link from 'next/link';
 
   type Props = {
     tag?: NoteTag;
@@ -19,7 +18,6 @@ import { NoteTag } from '@/types/note';
     const [page, setPage] = useState(1);
     const [query, setQuery] = useState('');
     const [searchInput, setSearchInput] = useState('');
-    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     React.useEffect(() => {
       const handler = setTimeout(() => {
@@ -49,9 +47,9 @@ import { NoteTag } from '@/types/note';
               onPageChange={setPage}
             />
           )}
-          <button className={css.button} onClick={() => setModalIsOpen(true)}>
+          <Link href="/notes/action/create" className={css.button}>
             Create note +
-          </button>
+          </Link>
         </header>
         {/* {tag && <h2>Notes with tag: {tag}</h2>} */}
         {data && Array.isArray(data.notes) && data.notes.length > 0 ? (
@@ -59,9 +57,7 @@ import { NoteTag } from '@/types/note';
         ) : (
           <p>No notes found.</p>
         )}
-        <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)}>
-          <NoteForm onCancel={() => setModalIsOpen(false)} />
-        </Modal>
+  {/* Modal removed, note creation is now a separate page */}
       </div>
     );
   };
