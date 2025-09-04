@@ -1,7 +1,6 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useNoteDraftStore } from '@/lib/store/noteStore';
 import type { NoteTag } from '@/types/note';
 import css from './NoteForm.module.css';
@@ -28,7 +27,6 @@ const NoteForm: React.FC = () => {
 
 
   const { draft, setDraft, clearDraft } = useNoteDraftStore();
-  const [isPending, setIsPending] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -40,13 +38,11 @@ const NoteForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsPending(true);
     mutation.mutate({
       title: draft.title,
       content: draft.content,
       tag: draft.tag,
     });
-    setIsPending(false);
   };
 
   return (
@@ -89,7 +85,7 @@ const NoteForm: React.FC = () => {
       </div>
       <div className={css.actions}>
   <button type="button" className={css.cancelButton} onClick={() => router.back()}>Cancel</button>
-        <button type="submit" className={css.submitButton} disabled={isPending || mutation.isPending}>
+  <button type="submit" className={css.submitButton} disabled={mutation.isPending}>
           {mutation.isPending ? 'Creating...' : 'Create note'}
         </button>
       </div>
