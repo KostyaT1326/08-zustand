@@ -21,6 +21,8 @@ const NoteForm: React.FC = () => {
     mutationFn: createNote,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
+      clearDraft();
+      router.back();
     },
   });
 
@@ -45,7 +47,6 @@ const NoteForm: React.FC = () => {
       tag: draft.tag,
     });
     setIsPending(false);
-    clearDraft();
   };
 
   return (
@@ -87,7 +88,7 @@ const NoteForm: React.FC = () => {
         </select>
       </div>
       <div className={css.actions}>
-        <button type="button" className={css.cancelButton} onClick={() => router.push('/notes/filter/all')}>Cancel</button>
+  <button type="button" className={css.cancelButton} onClick={() => router.back()}>Cancel</button>
         <button type="submit" className={css.submitButton} disabled={isPending || mutation.isPending}>
           {mutation.isPending ? 'Creating...' : 'Create note'}
         </button>
